@@ -1,0 +1,4 @@
+# Configuration for the Team plugin.
+
+show_empty_teams: true
+show_teams_without_player: true

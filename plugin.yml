@@ -1,0 +1,53 @@
+name: Team
+version: "1.0.0"
+api-version: 1.13
+description: "A simple plugin that allows players to create teams."
+author: oscardoras
+main: org.bukkitplugin.team.TeamPlugin
+permissions:
+  team:
+    default: op
+    children:
+      team.command: true
+  team.command:
+    default: true
+    children:
+      team.command.team: true
+  team.command.team:
+    default: true
+    children:
+      team.command.team.list: true
+      team.command.team.members: true
+      team.command.team.create: true
+      team.command.team.delete: true
+      team.command.team.leave: true
+      team.command.team.invitations: true
+      team.command.team.accept: true
+      team.command.team.decline: true
+      team.command.team.name: true
+  team.command.team.list:
+    default: true
+  team.command.team.members:
+    default: true
+    children:
+      team.command.team.members.*: true
+  team.command.team.members.*:
+    default: true
+  team.command.team.create:
+    default: true
+  team.command.team.delete:
+    default: true
+  team.command.team.leave:
+    default: true
+    children:
+      team.command.team.leave.*: true
+  team.command.team.leave.*:
+    default: true
+  team.command.team.invitations:
+    default: true
+  team.command.team.accept:
+    default: true
+  team.command.team.decline:
+    default: true
+  team.command.team.name:
+    default: true
