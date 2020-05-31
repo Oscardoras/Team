@@ -20,6 +20,7 @@ public class TeamPlugin extends BukkitPlugin implements Listener {
 	public boolean showEmptyTeams;
 	public boolean showTeamsWithoutPlayer;
 	
+	@Override
 	public void onLoad() {
 		TeamCommand.list();
 		TeamCommand.members();
@@ -33,7 +34,8 @@ public class TeamPlugin extends BukkitPlugin implements Listener {
 		TeamCommand.accept();
 		TeamCommand.decline();
 	}
-
+	
+	@Override
 	public void onEnable() {
 		saveDefaultConfig();
 		

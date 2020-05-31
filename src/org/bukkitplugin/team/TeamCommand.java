@@ -1,6 +1,7 @@
 package org.bukkitplugin.team;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.UUID;
@@ -11,15 +12,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
-import org.bukkitutils.command.v1_14_3_V1.Argument;
-import org.bukkitutils.command.v1_14_3_V1.CommandRegister;
-import org.bukkitutils.command.v1_14_3_V1.CommandRegister.CommandExecutorType;
-import org.bukkitutils.command.v1_14_3_V1.CustomArgument;
-import org.bukkitutils.command.v1_14_3_V1.LiteralArgument;
-import org.bukkitutils.command.v1_14_3_V1.arguments.GreedyStringArgument;
-import org.bukkitutils.command.v1_14_3_V1.arguments.OfflinePlayerArgument;
-import org.bukkitutils.command.v1_14_3_V1.arguments.ScoreboardTeamArgument;
-import org.bukkitutils.command.v1_14_3_V1.arguments.StringArgument;
+import org.bukkitutils.command.v1_15_V1.Argument;
+import org.bukkitutils.command.v1_15_V1.CommandRegister;
+import org.bukkitutils.command.v1_15_V1.CommandRegister.CommandExecutorType;
+import org.bukkitutils.command.v1_15_V1.CustomArgument;
+import org.bukkitutils.command.v1_15_V1.LiteralArgument;
+import org.bukkitutils.command.v1_15_V1.arguments.GreedyStringArgument;
+import org.bukkitutils.command.v1_15_V1.arguments.OfflinePlayerArgument;
+import org.bukkitutils.command.v1_15_V1.arguments.ScoreboardEntryArgument;
+import org.bukkitutils.command.v1_15_V1.arguments.ScoreboardEntryArgument.EntrySelector;
+import org.bukkitutils.command.v1_15_V1.arguments.ScoreboardTeamArgument;
+import org.bukkitutils.command.v1_15_V1.arguments.StringArgument;
 
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -219,7 +222,7 @@ public final class TeamCommand {
 		LinkedHashMap<String, Argument<?>> arguments = new LinkedHashMap<>();
 		arguments.put("invitations", new LiteralArgument("invitations").withPermission(new Permission("team.command.team.invitations")));
 		arguments.put("invite", new LiteralArgument("invite"));
-		arguments.put("targets", new OfflinePlayerArgument().withSuggestionsProvider((cmd) -> {
+		arguments.put("targets", new ScoreboardEntryArgument(EntrySelector.MANY_ENTITIES).withSuggestionsProvider((cmd) -> {
 			List<String> list = new ArrayList<String>();
 			Team team = scoreboard.getEntryTeam(cmd.getExecutor().getName());
 			if (team != null)
@@ -231,15 +234,28 @@ public final class TeamCommand {
 		CommandRegister.register("t", arguments, new Permission("team.command.team"), CommandExecutorType.ENTITY, (cmd) -> {
 			Team team = scoreboard.getEntryTeam(cmd.getExecutor().getName());
 			if (team != null) {
-				OfflinePlayer offlinePlayer = (OfflinePlayer) cmd.getArg(0);
-				if (new PlayerInvitations(offlinePlayer).invite(team)) {
-					cmd.sendMessage(new Message("invitations.invite", offlinePlayer.getName()));
-					if (offlinePlayer.isOnline()) PlayerInvitations.sendInvitationMessage(offlinePlayer.getPlayer(), team);
-					return 1;
-				} else {
-					cmd.sendFailureMessage(new Message("invitations.already_sent"));
-					return 0;
+				@SuppressWarnings("unchecked")
+				Collection<String> entries = (Collection<String>) cmd.getArg(0);
+				int value = 0;
+				for (String entry : entries) {
+					try {
+						UUID.fromString(entry);
+						if (scoreboard.getEntryTeam(entry) == null) {
+							team.addEntry(entry);
+							cmd.sendMessage(new Message("invitations.invite", entry));
+							value++;
+						} else cmd.sendFailureMessage(new Message("invitations.already_sent"));
+					} catch (IllegalArgumentException e) {
+						@SuppressWarnings("deprecation")
+						OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(entry);
+						if (new PlayerInvitations(offlinePlayer).invite(team)) {
+							cmd.sendMessage(new Message("invitations.invite", offlinePlayer.getName()));
+							if (offlinePlayer.isOnline()) PlayerInvitations.sendInvitationMessage(offlinePlayer.getPlayer(), team);
+							value++;
+						} else cmd.sendFailureMessage(new Message("invitations.already_sent"));
+					}
 				}
+				return value;
 			} else {
 				cmd.sendFailureMessage(new Message("sender.does_not_have_team"));
 				return 0;
