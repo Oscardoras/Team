@@ -1,4 +1,4 @@
-package org.bukkitplugin.team;
+package me.oscardoras.team;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -6,7 +6,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.scoreboard.Team;
-import org.bukkitutils.BukkitPlugin;
+
+import me.oscardoras.spigotutils.BukkitPlugin;
 
 public class TeamPlugin extends BukkitPlugin implements Listener {
 	

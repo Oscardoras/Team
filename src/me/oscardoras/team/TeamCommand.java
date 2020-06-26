@@ -1,4 +1,4 @@
-package org.bukkitplugin.team;
+package me.oscardoras.team;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,18 +12,18 @@ import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
-import org.bukkitutils.command.v1_15_V1.Argument;
-import org.bukkitutils.command.v1_15_V1.CommandRegister;
-import org.bukkitutils.command.v1_15_V1.CommandRegister.CommandExecutorType;
-import org.bukkitutils.command.v1_15_V1.CustomArgument;
-import org.bukkitutils.command.v1_15_V1.LiteralArgument;
-import org.bukkitutils.command.v1_15_V1.arguments.GreedyStringArgument;
-import org.bukkitutils.command.v1_15_V1.arguments.OfflinePlayerArgument;
-import org.bukkitutils.command.v1_15_V1.arguments.ScoreboardEntryArgument;
-import org.bukkitutils.command.v1_15_V1.arguments.ScoreboardEntryArgument.EntrySelector;
-import org.bukkitutils.command.v1_15_V1.arguments.ScoreboardTeamArgument;
-import org.bukkitutils.command.v1_15_V1.arguments.StringArgument;
 
+import me.oscardoras.spigotutils.command.v1_16_1_V1.Argument;
+import me.oscardoras.spigotutils.command.v1_16_1_V1.CommandRegister;
+import me.oscardoras.spigotutils.command.v1_16_1_V1.CustomArgument;
+import me.oscardoras.spigotutils.command.v1_16_1_V1.LiteralArgument;
+import me.oscardoras.spigotutils.command.v1_16_1_V1.CommandRegister.CommandExecutorType;
+import me.oscardoras.spigotutils.command.v1_16_1_V1.arguments.GreedyStringArgument;
+import me.oscardoras.spigotutils.command.v1_16_1_V1.arguments.OfflinePlayerArgument;
+import me.oscardoras.spigotutils.command.v1_16_1_V1.arguments.ScoreboardEntryArgument;
+import me.oscardoras.spigotutils.command.v1_16_1_V1.arguments.ScoreboardTeamArgument;
+import me.oscardoras.spigotutils.command.v1_16_1_V1.arguments.StringArgument;
+import me.oscardoras.spigotutils.command.v1_16_1_V1.arguments.ScoreboardEntryArgument.EntrySelector;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;

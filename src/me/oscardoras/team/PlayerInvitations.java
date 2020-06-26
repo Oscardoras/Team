@@ -1,4 +1,4 @@
-package org.bukkitplugin.team;
+package me.oscardoras.team;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +7,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
-import org.bukkitutils.io.ConfigurationFile;
+
+import me.oscardoras.spigotutils.io.ConfigurationFile;
 
 public class PlayerInvitations {
 	

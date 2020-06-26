@@ -3,7 +3,7 @@ version: "1.0.0"
 api-version: 1.13
 description: "A simple plugin that allows players to create teams."
 author: oscardoras
-main: org.bukkitplugin.team.TeamPlugin
+main: me.oscardoras.team.TeamPlugin
 permissions:
   team:
     default: op
